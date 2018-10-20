@@ -10,7 +10,10 @@ class App extends Component {
     }
   }
 
-  logIn = (userId) => {
+
+  fetchUser = (userId) => {
+    fetch('https://localhost3000/users')
+
     this.setState({
       userId
     })
@@ -20,8 +23,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-
-        {this.state.loggedIn ? <ConversationsList user={this.state.userId}/> : <Login />}
+        {this.state.userId ? <ConversationsList user={this.state.userId}/> : <Login logIn={this.fetchUser}/>}
       </div>
     );
   }
