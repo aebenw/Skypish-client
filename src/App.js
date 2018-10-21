@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Login from './components/Login'
 import ConversationsList from './components/ConversationsList';
 
 class App extends Component {
@@ -11,12 +12,28 @@ class App extends Component {
   }
 
 
-  fetchUser = (userId) => {
-    fetch('https://localhost3000/users')
+  fetchUser = (event) => {
+    event.preventDefault()
 
-    this.setState({
-      userId
-    })
+    let email = event.target.email.value;
+    // let password = event.target.password.value;
+    // let body = {
+    //   email,
+    //   password
+    // }
+    fetch(`http://localhost:3000/users/${email}`)
+    .then(res => res.json())
+    .then(console.log)
+    //   method: "POST",
+    //   headers: {
+    //     "Content-type": "application/json"
+    //   },
+    //   body: JSON.stringify(body)
+    // }).then(res => res.json())
+    // .then(console.log)
+    // this.setState({
+    //   userId
+    // })
   }
 
 
