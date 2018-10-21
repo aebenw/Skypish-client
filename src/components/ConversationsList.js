@@ -6,16 +6,19 @@ import MessagesArea from './MessagesArea';
 import Cable from './Cable';
 
 class ConversationsList extends React.Component {
-  state = {
-    conversations: [],
+
+  constructor(props){
+    super(props)
+    this.state = {
+    userName: this.props.user.name,
+    conversations: this.props.user.conversations,
     activeConversation: null
+    }
   };
 
-  componentDidMount = () => {
-    fetch(`${API_ROOT}/conversations`)
-      .then(res => res.json())
-      .then(conversations => this.setState({ conversations }));
-  };
+
+////////// NO LONGER FETCHING ALL CONVOS, CONVOS FROM USER ARE IN PROPS/STATE ///////
+
 
   handleClick = id => {
     this.setState({ activeConversation: id });
@@ -39,7 +42,8 @@ class ConversationsList extends React.Component {
   };
 
   render = () => {
-    const { conversations, activeConversation } = this.state;
+    debugger
+    const { conversations, activeConversation, userName } = this.state;
     return (
       <div className="conversationsList">
         <ActionCable
@@ -53,7 +57,7 @@ class ConversationsList extends React.Component {
           />
         ) : null}
         <h2>Conversations</h2>
-        <ul>{mapConversations(conversations, this.handleClick)}</ul>
+        <ul>{mapConversations(conversations, this.handleClick, userName)}</ul>
         <NewConversationForm />
         {activeConversation ? (
           <MessagesArea
@@ -78,12 +82,19 @@ const findActiveConversation = (conversations, activeConversation) => {
   );
 };
 
-const mapConversations = (conversations, handleClick) => {
+const mapConversations = (conversations, handleClick, user) => {
+  debugger
   return conversations.map(conversation => {
+    if (conversation.author.name === user){
     return (
       <li key={conversation.id} onClick={() => handleClick(conversation.id)}>
-        {conversation.title}
+        {conversation.receiver.name}
       </li>
-    );
-  });
-};
+    )} else {
+      return (
+        <li key={conversation.id} onClick={() => handleClick(conversation.id)}>
+          {conversation.author.name}
+        </li>
+      )}
+    }
+)};

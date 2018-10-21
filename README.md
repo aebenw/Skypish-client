@@ -1,3 +1,29 @@
+Eben's Notes:
+
+
+Changing the state to have a CurrentUser
+
+Changing "ConversationsList" to show all User's active conversations represented by the other person's name, rather than a title
+
+Will make a list of users that current user does not have a conversation with
+  When a user is clicked a new conversation relationship will be established
+
+Messages will belong to both a user and a conversation
+  Maybe incorperate a name function next to the user 
+    i.e *Eben*: Hello
+        *Juan*: Hello Eben
+
+
+
+
+
+
+
+
+
+
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>

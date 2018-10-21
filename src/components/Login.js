@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Login = ({ logIn }) => {
+const Login = ({ fetchUser }) => {
 
 
   return (
@@ -11,7 +11,7 @@ const Login = ({ logIn }) => {
             Log-in to your account
           </div>
         </h2>
-        <form onSubmit={(event) => logIn(event)} method="get" className="ui large form">
+        <form onSubmit={(event) => fetchUser(event)} className="ui large form">
           <div className="ui stacked secondary  segment">
             <div className="field">
               <div className="ui left icon input">

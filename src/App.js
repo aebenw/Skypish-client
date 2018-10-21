@@ -7,7 +7,7 @@ class App extends Component {
   constructor(){
     super()
     this.state={
-      userId: null,
+      currentUser: null
     }
   }
 
@@ -16,31 +16,19 @@ class App extends Component {
     event.preventDefault()
 
     let email = event.target.email.value;
-    // let password = event.target.password.value;
-    // let body = {
-    //   email,
-    //   password
-    // }
     fetch(`http://localhost:3000/users/${email}`)
     .then(res => res.json())
-    .then(console.log)
-    //   method: "POST",
-    //   headers: {
-    //     "Content-type": "application/json"
-    //   },
-    //   body: JSON.stringify(body)
-    // }).then(res => res.json())
-    // .then(console.log)
-    // this.setState({
-    //   userId
-    // })
+    .then(currentUser => this.setState({
+          currentUser
+        }, () => console.log(this.state)))
+
   }
 
 
   render() {
     return (
       <div className="App">
-        {this.state.userId ? <ConversationsList user={this.state.userId}/> : <Login logIn={this.fetchUser}/>}
+        {this.state.currentUser ? <ConversationsList user={this.state.currentUser}/> : <Login fetchUser={this.fetchUser}/>}
       </div>
     );
   }
