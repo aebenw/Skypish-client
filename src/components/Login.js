@@ -2,7 +2,6 @@ import React from 'react'
 
 const Login = ({ fetchUser }) => {
 
-
   return (
     <div className="ui middle aligned center aligned grid">
       <div id="login-box" className="column">

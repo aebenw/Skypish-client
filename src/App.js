@@ -18,10 +18,26 @@ class App extends Component {
     let email = event.target.email.value;
     fetch(`http://localhost:3000/users/${email}`)
     .then(res => res.json())
+<<<<<<< HEAD
     .then(currentUser => this.setState({
           currentUser
         }, () => console.log(this.state)))
 
+=======
+    .then(res => this.setState({
+      userId: res
+    }))
+    //   method: "POST",
+    //   headers: {
+    //     "Content-type": "application/json"
+    //   },
+    //   body: JSON.stringify(body)
+    // }).then(res => res.json())
+    // .then(console.log)
+    // this.setState({
+    //   userId
+    // })
+>>>>>>> master
   }
 
 
