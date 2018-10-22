@@ -18,12 +18,6 @@ class App extends Component {
     let email = event.target.email.value;
     fetch(`http://localhost:3000/users/${email}`)
     .then(res => res.json())
-<<<<<<< HEAD
-    .then(currentUser => this.setState({
-          currentUser
-        }, () => console.log(this.state)))
-
-=======
     .then(res => this.setState({
       userId: res
     }))
@@ -37,7 +31,7 @@ class App extends Component {
     // this.setState({
     //   userId
     // })
->>>>>>> master
+
   }
 
 
