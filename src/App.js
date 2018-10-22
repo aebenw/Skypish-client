@@ -16,26 +16,11 @@ class App extends Component {
     event.preventDefault()
 
     let email = event.target.email.value;
-    // let password = event.target.password.value;
-    // let body = {
-    //   email,
-    //   password
-    // }
-    fetch(`http://localhost:3000/users/${email}`)
+    fetch(`http://localhost:3001/users/${email}`)
     .then(res => res.json())
     .then(res => this.setState({
       userId: res
     }))
-    //   method: "POST",
-    //   headers: {
-    //     "Content-type": "application/json"
-    //   },
-    //   body: JSON.stringify(body)
-    // }).then(res => res.json())
-    // .then(console.log)
-    // this.setState({
-    //   userId
-    // })
   }
 
 
