@@ -4,21 +4,23 @@ import { API_ROOT } from '../constants';
 import NewConversationForm from './NewConversationForm';
 import MessagesArea from './MessagesArea';
 import Cable from './Cable';
+import UsersContainer from './UsersContainer'
 
 class ConversationsList extends React.Component {
   constructor(props){
     super(props)
     this.state = {
     conversations: props.user.conversations,
-    activeConversation: null
+    activeConversation: null,
+    users:[]
   }
 }
 
-  // componentDidMount = () => {
-  //   fetch(`${API_ROOT}/conversations`)
-  //     .then(res => res.json())
-  //     .then(conversations => this.setState({ conversations }));
-  // };
+  componentDidMount = () => {
+    fetch(`http://localhost:3001/users`)
+      .then(res => res.json())
+      .then(users => this.setState({users:users}));
+  };
 
   handleClick = id => {
     this.setState({ activeConversation: id });
@@ -41,11 +43,23 @@ class ConversationsList extends React.Component {
     this.setState({ conversations });
   };
 
+  handleUsersClick = (obj) => {
+    fetch("http://localhost:3001/followers",{
+      method: "POST",
+      headers:{
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({currentU:this.props.user.name,otherU:obj.name})
+    })
+
+  }
+
   render = () => {
     const { conversations, activeConversation } = this.state;
-    console.log(this.props)
+    console.log(this.state.users)
     return (
       <div className="conversationsList">
+        <UsersContainer users={this.state.users} handleUsersClick={this.handleUsersClick} />
         <ActionCable
           channel={{ channel: 'ConversationsChannel' }}
           onReceived={this.handleReceivedConversation}
@@ -84,7 +98,6 @@ const findActiveConversation = (conversations, activeConversation, name) => {
 
 const mapConversations = (conversations, handleClick, name) => {
   return conversations.map(conversation => {
-    debugger
     if (conversation.receiver.name === name){
     return (
       <li key={conversation.id} onClick={() => handleClick(conversation.id)}>
