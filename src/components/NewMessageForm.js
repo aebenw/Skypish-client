@@ -4,7 +4,8 @@ import { API_ROOT, HEADERS } from '../constants';
 class NewMessageForm extends React.Component {
   state = {
     text: '',
-    conversation_id: this.props.conversation_id
+    conversation_id: this.props.conversation_id,
+    user_id: this.props.user_id
   };
 
   componentWillReceiveProps = nextProps => {
@@ -27,6 +28,7 @@ class NewMessageForm extends React.Component {
   };
 
   render = () => {
+    console.log(this.state)
     return (
       <div className="newMessageForm">
         <form onSubmit={this.handleSubmit}>

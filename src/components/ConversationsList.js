@@ -10,6 +10,8 @@ class ConversationsList extends React.Component {
     super(props)
     this.state = {
     conversations: props.user.conversations,
+    user_id: this.props.user.id,
+    username: this.props.user.name,
     activeConversation: null
   }
 }
@@ -42,8 +44,7 @@ class ConversationsList extends React.Component {
   };
 
   render = () => {
-    const { conversations, activeConversation } = this.state;
-    console.log(this.props)
+    const { conversations, activeConversation, user_id, username } = this.state;
     return (
       <div className="conversationsList">
         <ActionCable
@@ -64,7 +65,7 @@ class ConversationsList extends React.Component {
             conversation={findActiveConversation(
               conversations,
               activeConversation
-            )}
+            )} user_id={user_id} username={username}
           />
         ) : null}
       </div>
