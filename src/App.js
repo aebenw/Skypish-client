@@ -23,7 +23,9 @@ class App extends Component {
     // }
     fetch(`http://localhost:3000/users/${email}`)
     .then(res => res.json())
-    .then(console.log)
+    .then(res => this.setState({
+      userId: res
+    }))
     //   method: "POST",
     //   headers: {
     //     "Content-type": "application/json"

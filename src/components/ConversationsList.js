@@ -6,16 +6,19 @@ import MessagesArea from './MessagesArea';
 import Cable from './Cable';
 
 class ConversationsList extends React.Component {
-  state = {
-    conversations: [],
+  constructor(props){
+    super(props)
+    this.state = {
+    conversations: props.user.conversations,
     activeConversation: null
-  };
+  }
+}
 
-  componentDidMount = () => {
-    fetch(`${API_ROOT}/conversations`)
-      .then(res => res.json())
-      .then(conversations => this.setState({ conversations }));
-  };
+  // componentDidMount = () => {
+  //   fetch(`${API_ROOT}/conversations`)
+  //     .then(res => res.json())
+  //     .then(conversations => this.setState({ conversations }));
+  // };
 
   handleClick = id => {
     this.setState({ activeConversation: id });
@@ -40,6 +43,7 @@ class ConversationsList extends React.Component {
 
   render = () => {
     const { conversations, activeConversation } = this.state;
+    console.log(this.props)
     return (
       <div className="conversationsList">
         <ActionCable
@@ -53,7 +57,7 @@ class ConversationsList extends React.Component {
           />
         ) : null}
         <h2>Conversations</h2>
-        <ul>{mapConversations(conversations, this.handleClick)}</ul>
+        <ul>{mapConversations(conversations, this.handleClick, this.props.user.name)}</ul>
         <NewConversationForm />
         {activeConversation ? (
           <MessagesArea
@@ -72,18 +76,27 @@ export default ConversationsList;
 
 // helpers
 
-const findActiveConversation = (conversations, activeConversation) => {
+const findActiveConversation = (conversations, activeConversation, name) => {
   return conversations.find(
     conversation => conversation.id === activeConversation
   );
 };
 
-const mapConversations = (conversations, handleClick) => {
+const mapConversations = (conversations, handleClick, name) => {
   return conversations.map(conversation => {
+    debugger
+    if (conversation.receiver.name === name){
     return (
       <li key={conversation.id} onClick={() => handleClick(conversation.id)}>
-        {conversation.title}
+        {conversation.author.name}
       </li>
+    )} else {
+      return (
+        <li key={conversation.id} onClick={() => handleClick(conversation.id)}>
+          {conversation.receiver.name}
+        </li>
+
     );
-  });
+  }
+})
 };
