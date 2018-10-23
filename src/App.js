@@ -12,6 +12,10 @@ class App extends Component {
     }
   }
 
+  // componentDidMount = () => {
+  //   let token = localStorage.getItem("jwt")
+  //
+  // }
 
 
   fetchUser = (event) => {
@@ -24,7 +28,7 @@ class App extends Component {
       email,
       password
     }
-    fetch(API_ROOT+`/auth`, {
+    fetch(API_ROOT+'/auth', {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -37,9 +41,9 @@ class App extends Component {
 
   handleLogin = (res) => {
     localStorage.setItem("jwt", res.jwt)
-    //   this.setState({
-    //   currentUser: res.current_user.user
-    // })
+      this.setState({
+      currentUser: res.current_user.user
+    })
   }
 
 

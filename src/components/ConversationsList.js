@@ -15,27 +15,11 @@ class ConversationsList extends React.Component {
     user_id: this.props.user.id,
     username: this.props.user.name,
     activeConversation: null,
-    users:[],
-    auth:{currentUser: {}}
+    users:[]
   }
 }
 
   componentDidMount = () => {
-    let token = localStorage.getItem("jwt")
-    if (token) {
-      fetch(API_ROOT+"/current_user",{
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          Authorization: token
-        }
-      })
-      .then(response => response.json())
-      .then(user => {const currentUser = { currentUser: user };
-          this.setState({ auth: currentUser })
-        });
-    }
-
     fetch(API_ROOT+`/users`)
       .then(res => res.json())
       .then(users => this.setState({users:users}, () => console.log("all users", this.state.users)));
