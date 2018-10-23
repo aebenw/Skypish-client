@@ -18,12 +18,12 @@ const Login = ({ fetchUser }) => {
                 <input type="text" name="email" placeholder="E-mail address" />
               </div>
             </div>
-            {/* <div className="field">
+            <div className="field">
               <div className="ui left icon input">
                 <i className="lock icon"></i>
                 <input type="password" name="password" placeholder="Password" />
               </div>
-            </div> */}
+            </div>
             <input type="submit" className="ui fluid large teal submit button" value="Login" />
           </div>
 

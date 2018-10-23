@@ -2,7 +2,7 @@
 import React from 'react';
 import NewMessageForm from './NewMessageForm';
 
-const MessagesArea = ({user_id, username, conversation: { id, title, messages }}) => {
+const MessagesArea = ({user_id, username, conversation: { id, title, messages, receiver: {name, receiver_id} }}) => {
   console.log("message area props")
   return (
     <div className="messagesArea">
@@ -18,7 +18,6 @@ export default MessagesArea;
 // helpers
 
 const orderedMessages = (messages, user) => {
-  debugger
   const sortedMessages = messages.sort(
     (a, b) => new Date(a.created_at) - new Date(b.created_at)
   );

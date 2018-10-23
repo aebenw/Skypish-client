@@ -19,9 +19,9 @@ class ConversationsList extends React.Component {
 }
 
   componentDidMount = () => {
-    fetch(`http://localhost:3001/users`)
+    fetch(`http://localhost:3000/users`)
       .then(res => res.json())
-      .then(users => this.setState({users:users}));
+      .then(users => this.setState({users:users}, () => console.log("all users", this.state.users)));
   };
 
   handleClick = id => {
@@ -46,7 +46,7 @@ class ConversationsList extends React.Component {
   };
 
   handleUsersClick = (obj) => {
-    fetch("http://localhost:3001/followers",{
+    fetch("http://localhost:3000/followers",{
       method: "POST",
       headers:{
     'Content-Type': 'application/json'
