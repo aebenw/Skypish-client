@@ -11,6 +11,12 @@ class App extends Component {
     }
   }
 
+  componentDidMount = () => {
+    let token = localStorage.getItem("jwt")
+    debugger
+
+  }
+
 
   fetchUser = (event) => {
     event.preventDefault()
@@ -34,7 +40,6 @@ class App extends Component {
   }
 
   handleLogin = (res) => {
-    debugger
     localStorage.setItem("jwt", res.jwt)
       this.setState({
       currentUser: res
