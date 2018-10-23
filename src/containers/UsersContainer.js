@@ -1,5 +1,5 @@
 import React, { Component,Fragment } from 'react'
-import Users from './Users'
+import Users from '../components/Users'
 
 export default class UsersContainer extends Component {
 

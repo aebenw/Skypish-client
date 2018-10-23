@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Login from './components/Login'
 import ConversationsList from './components/ConversationsList';
+import { API_ROOT } from './constants';
 
 class App extends Component {
 
@@ -11,11 +12,6 @@ class App extends Component {
     }
   }
 
-  componentDidMount = () => {
-    let token = localStorage.getItem("jwt")
-    debugger
-
-  }
 
 
   fetchUser = (event) => {
@@ -28,7 +24,7 @@ class App extends Component {
       email,
       password
     }
-    fetch(`http://localhost:3000/auth`, {
+    fetch(API_ROOT+`/auth`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -41,9 +37,9 @@ class App extends Component {
 
   handleLogin = (res) => {
     localStorage.setItem("jwt", res.jwt)
-      this.setState({
-      currentUser: res
-    })
+    //   this.setState({
+    //   currentUser: res.current_user.user
+    // })
   }
 
 

@@ -4,7 +4,8 @@ import { API_ROOT } from '../constants';
 import NewConversationForm from './NewConversationForm';
 import MessagesArea from './MessagesArea';
 import Cable from './Cable';
-import UsersContainer from './UsersContainer'
+import UsersContainer from '../containers/UsersContainer'
+import VideoContainer from '../containers/VideoContainer'
 
 class ConversationsList extends React.Component {
   constructor(props){
@@ -14,12 +15,28 @@ class ConversationsList extends React.Component {
     user_id: this.props.user.id,
     username: this.props.user.name,
     activeConversation: null,
-    users:[]
+    users:[],
+    auth:{currentUser: {}}
   }
 }
 
   componentDidMount = () => {
-    fetch(`http://localhost:3000/users`)
+    let token = localStorage.getItem("jwt")
+    if (token) {
+      fetch(API_ROOT+"/current_user",{
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: token
+        }
+      })
+      .then(response => response.json())
+      .then(user => {const currentUser = { currentUser: user };
+          this.setState({ auth: currentUser })
+        });
+    }
+
+    fetch(API_ROOT+`/users`)
       .then(res => res.json())
       .then(users => this.setState({users:users}, () => console.log("all users", this.state.users)));
   };
@@ -46,7 +63,7 @@ class ConversationsList extends React.Component {
   };
 
   handleUsersClick = (obj) => {
-    fetch("http://localhost:3000/followers",{
+    fetch(API_ROOT+"/followers",{
       method: "POST",
       headers:{
     'Content-Type': 'application/json'
@@ -73,7 +90,7 @@ class ConversationsList extends React.Component {
         ) : null}
         <h2>Conversations</h2>
         <ul>{mapConversations(conversations, this.handleClick, this.props.user.name)}</ul>
-        <NewConversationForm />
+        {/* <NewConversationForm /> */}
         {activeConversation ? (
           <MessagesArea
             conversation={findActiveConversation(
@@ -82,6 +99,7 @@ class ConversationsList extends React.Component {
             )} user_id={user_id} username={username}
           />
         ) : null}
+        <VideoContainer handleJoinSession={this.handleJoinSession} handleLeaveSession={this.handleLeaveSession} />
       </div>
     );
   };
