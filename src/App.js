@@ -37,7 +37,7 @@ class App extends Component {
     debugger
     localStorage.setItem("jwt", res.jwt)
       this.setState({
-      currentUser: res
+      currentUser: res.current_user.user
     })
   }
 
