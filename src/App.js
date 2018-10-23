@@ -40,6 +40,7 @@ class App extends Component {
   }
 
   handleLogin = (res) => {
+    console.log(res)
     localStorage.setItem("jwt", res.jwt)
       this.setState({
       currentUser: res.current_user.user
