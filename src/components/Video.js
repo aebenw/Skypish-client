@@ -12,7 +12,7 @@ export default class Video extends React.Component {
     // console.log(this.props.stream,video)
     return (
       <Fragment >
-        <video   autoPlay> </video>
+        <video  id="local-video"  autoPlay> </video>
       </Fragment>
 
     )
