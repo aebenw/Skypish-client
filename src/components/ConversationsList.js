@@ -57,11 +57,12 @@ class ConversationsList extends React.Component {
   };
 
   handleReceivedMessage = response => {
+    debugger
     const { message } = response;
     const JOIN_ROOM = "JOIN_ROOM";
     const EXCHANGE = "EXCHANGE";
     const REMOVE_USER = "REMOVE_USER";
-
+    debugger
     if (message.kind) {
       this.setState({conversationId: message.conversation_id})
       if (message.from == this.state.user_id) return;
@@ -87,10 +88,12 @@ class ConversationsList extends React.Component {
   }
 
   joinRoom = data => {
-    this.createPC(data.from, true);
+    debugger
+    this.createPC(1, true);
   };
 
   createPC = (userId, isOffer) => {
+    debugger
   const JOIN_ROOM = "JOIN_ROOM";
   const EXCHANGE = "EXCHANGE";
   const REMOVE_USER = "REMOVE_USER";
@@ -106,7 +109,7 @@ class ConversationsList extends React.Component {
   });
   connectObj[userId] = pc;
   pc.addStream(this.state.localstream.stream);
-
+  debugger
   console.log("pc obj", pc)
   console.log("pcpeers obj", connectObj)
 
@@ -115,50 +118,52 @@ class ConversationsList extends React.Component {
       .createOffer()
       .then(offer => {
         return pc.setLocalDescription(offer);
-      }).then(() => {
-        this.broadcastData({message:{
-          type: EXCHANGE,
-          from: this.state.user_id,
-          to: userId,
-          conversation_id: this.state.conversationId,
-          sdp: JSON.stringify(pc.localDescription)
-        }});
-      })
+      }).then(console.log)
 
-      console.log("before onicecanidate")
-  pc.onicecandidate = event => {
-    event.candidate &&
-      this.broadcastData({message: {
-        type: EXCHANGE,
-        from: this.state.user_id,
-        to: userId,
-        conversation_id: this.state.conversationId,
-        candidate: JSON.stringify(event.candidate)
-      }});
-  };
-
-  console.log("before onaddstream")
-  pc.onaddstream = event => {
-    debugger
-    const element = document.createElement("video");
-    element.id = `remoteVideoContainer+${userId}`;
-    element.autoplay = "autoplay";
-    element.srcObject = event.stream;
-    videoContainer.appendChild(element);
-  };
-
-  pc.oniceconnectionstatechange = event => {
-    if (pc.iceConnectionState === "disconnected") {
-      console.log("Disconnected:", userId);
-      this.broadcastData({message:{
-        type: REMOVE_USER,
-        from: userId,
-        conversation_id: this.state.conversationId
-      }});
-    }
-  };
-
-  return pc;
+  //     .then(() => {
+  //       this.broadcastData({message:{
+  //         conversation_id: this.state.conversationId,
+  //         kind: EXCHANGE,
+  //         from: this.state.user_id,
+  //         to: userId,
+  //         sdp: JSON.stringify(pc.localDescription)
+  //       }});
+  //     })
+  //
+  //     console.log("before onicecanidate")
+  // pc.onicecandidate = event => {
+  //   event.candidate &&
+  //     this.broadcastData({message: {
+  //       conversation_id: this.state.conversationId,
+  //       kind: EXCHANGE,
+  //       from: this.state.user_id,
+  //       to: userId,
+  //       candidate: JSON.stringify(event.candidate)
+  //     }});
+  // };
+  //
+  // console.log("before onaddstream")
+  // pc.onaddstream = event => {
+  //   debugger
+  //   const element = document.createElement("video");
+  //   element.id = `remoteVideoContainer+${userId}`;
+  //   element.autoplay = "autoplay";
+  //   element.srcObject = event.stream;
+  //   videoContainer.appendChild(element);
+  // };
+  //
+  // pc.oniceconnectionstatechange = event => {
+  //   if (pc.iceConnectionState === "disconnected") {
+  //     console.log("Disconnected:", userId);
+  //     this.broadcastData({message:{
+  //       conversation_id: this.state.conversationId,
+  //       type: REMOVE_USER,
+  //       from: userId
+  //     }});
+  //   }
+  // };
+  //
+  // return pc;
 };
 
  exchange = data => {
@@ -187,8 +192,8 @@ class ConversationsList extends React.Component {
             return pc.setLocalDescription(answer);
           }).then(()=> {
             this.broadcastData({message:{
-              type: 'EXCHANGE',
               conversation_id: this.state.conversationId,
+              kind: 'EXCHANGE',
               from: this.state.user_id,
               to: data.from,
               sdp: JSON.stringify(pc.localDescription)
@@ -216,7 +221,7 @@ class ConversationsList extends React.Component {
   }
 
   broadcastData = data => {
-  fetch(API_ROOT + "messages", {
+  fetch(API_ROOT + "videos", {
     method: "POST",
     body: JSON.stringify(data),
     headers: HEADERS

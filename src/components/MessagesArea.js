@@ -42,13 +42,14 @@ export default class MessagesArea extends React.Component {
     const EXCHANGE = "EXCHANGE";
     const REMOVE_USER = "REMOVE_USER";
 
-    const data = {
+    const data = { video: {
       kind: JOIN_ROOM,
       user_id: this.state.user_id,
       conversation_id: this.state.conversationId
     }
+    }
 
-    fetch(API_ROOT + "/messages", {
+    fetch(API_ROOT + "/videos", {
       method: "POST",
       headers: HEADERS,
       body: JSON.stringify(data)
