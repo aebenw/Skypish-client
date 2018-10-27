@@ -1,16 +1,19 @@
 import React, { Fragment } from 'react';
 import { ActionCable } from 'react-actioncable-provider';
 
-const Cable = ({ conversations, handleReceivedMessage }) => {
+const Cable = ({ conversations, handleReceivedMessage, handleReceivedVideo }) => {
   return (
     <Fragment>
       {conversations.map(conversation => {
         return (
+          <Fragment>
+
           <ActionCable
             key={conversation.id}
-            channel={{ channel: 'MessagesChannel', conversation: conversation.id }}
-            onReceived={handleReceivedMessage}
+            channel={{ channel: 'VideosChannel', conversation: conversation.id }}
+            onReceived={handleReceivedVideo}
           />
+          </Fragment>
         );
       })}
     </Fragment>
@@ -18,3 +21,9 @@ const Cable = ({ conversations, handleReceivedMessage }) => {
 };
 
 export default Cable;
+
+{/* <ActionCable
+  key={conversation.id}
+  channel={{ channel: 'MessagesChannel', conversation: conversation.id }}
+  onReceived={handleReceivedMessage}
+/> */}

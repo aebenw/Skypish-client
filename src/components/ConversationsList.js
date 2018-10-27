@@ -27,7 +27,7 @@ class ConversationsList extends React.Component {
   componentDidMount = () => {
     fetch(API_ROOT+`/users`)
       .then(res => res.json())
-      .then(users => this.setState({users:users}, () => console.log("all users", this.state.users)));
+      .then(users => this.setState({users:users}));
 
       let localVideo = document.getElementById("local-video");
 
@@ -57,48 +57,50 @@ class ConversationsList extends React.Component {
   };
 
   handleReceivedMessage = response => {
-    debugger
     const { message } = response;
-    const JOIN_ROOM = "JOIN_ROOM";
-    const EXCHANGE = "EXCHANGE";
-    const REMOVE_USER = "REMOVE_USER";
-    debugger
-    if (message.kind) {
-      this.setState({conversationId: message.conversation_id})
-      if (message.from == this.state.user_id) return;
-      switch (message.kind) {
-        case JOIN_ROOM:
-          return this.joinRoom(message);
-        case EXCHANGE:
-          if (message.to !== this.state.user_id) return;
-          return this.exchange(message);
-        case REMOVE_USER:
-          return this.removeUser(message);
-        default:
-          return;
-        }
-    } else {
-      const conversations = [...this.state.conversations];
-      const conversation = conversations.find(
+
+    const conversations = [...this.state.conversations];
+    const conversation = conversations.find(
       conversation => conversation.id === message.conversation_id
     );
     conversation.messages = [...conversation.messages, message];
     this.setState({ conversations });
     };
+
+  handleReceivedVideo = response => {
+
+    const { video } = response;
+
+    const JOIN_ROOM = "JOIN_ROOM";
+    const EXCHANGE = "EXCHANGE";
+    const REMOVE_USER = "REMOVE_USER";
+
+      this.setState({conversationId: video.conversation_id})
+      if (video.from == this.state.user_id) return;
+      switch (video.kind) {
+        case JOIN_ROOM:
+          return this.joinRoom(video);
+        case EXCHANGE:
+          if (video.to !== this.state.user_id) return;
+          return this.exchange(video);
+        case REMOVE_USER:
+          return this.removeUser(video);
+        default:
+          return;
+        }
   }
 
+
   joinRoom = data => {
-    debugger
-    this.createPC(1, true);
+    this.createPC(data.from, true);
   };
 
   createPC = (userId, isOffer) => {
-    debugger
+
   const JOIN_ROOM = "JOIN_ROOM";
   const EXCHANGE = "EXCHANGE";
   const REMOVE_USER = "REMOVE_USER";
   let videoContainer = document.getElementById('videocontainer')
-  let connectObj = {}
   let pc = new RTCPeerConnection({
     iceServers:
     [
@@ -107,9 +109,10 @@ class ConversationsList extends React.Component {
       }
     ]
   });
+  let connectObj = {}
   connectObj[userId] = pc;
   pc.addStream(this.state.localstream.stream);
-  debugger
+  // debugger
   console.log("pc obj", pc)
   console.log("pcpeers obj", connectObj)
 
@@ -118,70 +121,77 @@ class ConversationsList extends React.Component {
       .createOffer()
       .then(offer => {
         return pc.setLocalDescription(offer);
-      }).then(console.log)
+      }).then(() => {
+        this.broadcastData({video:{
+          conversation_id: this.state.conversationId,
+          kind: EXCHANGE,
+          from: this.state.user_id,
+          user_id: this.state.user_id,
+          to: userId,
+          sdp: JSON.stringify(pc.localDescription)
+        }});
+      })
 
-  //     .then(() => {
-  //       this.broadcastData({message:{
-  //         conversation_id: this.state.conversationId,
-  //         kind: EXCHANGE,
-  //         from: this.state.user_id,
-  //         to: userId,
-  //         sdp: JSON.stringify(pc.localDescription)
-  //       }});
-  //     })
-  //
-  //     console.log("before onicecanidate")
-  // pc.onicecandidate = event => {
-  //   event.candidate &&
-  //     this.broadcastData({message: {
-  //       conversation_id: this.state.conversationId,
-  //       kind: EXCHANGE,
-  //       from: this.state.user_id,
-  //       to: userId,
-  //       candidate: JSON.stringify(event.candidate)
-  //     }});
-  // };
-  //
-  // console.log("before onaddstream")
-  // pc.onaddstream = event => {
-  //   debugger
-  //   const element = document.createElement("video");
-  //   element.id = `remoteVideoContainer+${userId}`;
-  //   element.autoplay = "autoplay";
-  //   element.srcObject = event.stream;
-  //   videoContainer.appendChild(element);
-  // };
-  //
-  // pc.oniceconnectionstatechange = event => {
-  //   if (pc.iceConnectionState === "disconnected") {
-  //     console.log("Disconnected:", userId);
-  //     this.broadcastData({message:{
-  //       conversation_id: this.state.conversationId,
-  //       type: REMOVE_USER,
-  //       from: userId
-  //     }});
-  //   }
-  // };
-  //
-  // return pc;
+  pc.onicecandidate = event => {
+    // debugger
+    event.candidate &&
+      this.broadcastData({video: {
+        conversation_id: this.state.conversationId,
+        kind: EXCHANGE,
+        from: this.state.user_id,
+        user_id: this.state.user_id,
+        to: userId,
+        candidate: JSON.stringify(event.candidate)
+      }});
+  };
+
+  pc.onaddstream = event => {
+
+    const element = document.createElement("video");
+    element.id = `remoteVideoContainer+${userId}`;
+    element.autoplay = "autoplay";
+    element.srcObject = event.stream;
+    videoContainer.appendChild(element);
+  };
+
+  pc.oniceconnectionstatechange = event => {
+    if (pc.iceConnectionState === "disconnected") {
+      console.log("Disconnected:", userId);
+      this.broadcastData({video:{
+        conversation_id: this.state.conversationId,
+        user_id: this.state.user_id,
+        type: REMOVE_USER,
+        from: userId
+      }});
+    }
+  };
+  console.log("pc obj outside of function", pc)
+  this.setState({
+    pcPeers: connectObj
+  }, () => console.log(this.state))
+  // debugger
+  return pc;
 };
 
  exchange = data => {
+
   let pc;
-  let connectObj = {}
-  debugger
   if (!this.state.pcPeers[data.from]) {
+    // debugger
     pc = this.createPC(data.from, false);
   } else {
-    pc = connectObj[data.from];
+    pc =  this.state.pcPeers[data.from];
   }
 
+  // debugger
   if (data.candidate) {
+    let iceCand = new RTCIceCandidate(JSON.parse(data.candidate))
     pc
-      .addIceCandidate(new RTCIceCandidate(JSON.parse(data.candidate)))
-      .then(() => console.log("Ice candidate added"))
+      .addIceCandidate(iceCand)
+      .then(resp => this.setState({pcPeers: { [data.from]: resp} }))
+        .then(console.log)
   }
-
+  // debugger
   if (data.sdp) {
     let sdp = JSON.parse(data.sdp);
     pc
@@ -191,9 +201,10 @@ class ConversationsList extends React.Component {
           pc.createAnswer().then(answer => {
             return pc.setLocalDescription(answer);
           }).then(()=> {
-            this.broadcastData({message:{
+            this.broadcastData({video:{
               conversation_id: this.state.conversationId,
               kind: 'EXCHANGE',
+              user_id: this.state.user_id,
               from: this.state.user_id,
               to: data.from,
               sdp: JSON.stringify(pc.localDescription)
@@ -217,7 +228,6 @@ class ConversationsList extends React.Component {
 
   setLocalStream = (stream) => {
     this.setState({ localstream: {stream} })
-    console.log(this.state.localstream)
   }
 
   broadcastData = data => {
@@ -241,6 +251,7 @@ class ConversationsList extends React.Component {
           <Cable
             conversations={conversations}
             handleReceivedMessage={this.handleReceivedMessage}
+            handleReceivedVideo={this.handleReceivedVideo}
           />
         ) : null}
         <h2>Conversations</h2>

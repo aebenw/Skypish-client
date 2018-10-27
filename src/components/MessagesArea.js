@@ -45,6 +45,7 @@ export default class MessagesArea extends React.Component {
     const data = { video: {
       kind: JOIN_ROOM,
       user_id: this.state.user_id,
+      from: this.state.user_id,
       conversation_id: this.state.conversationId
     }
     }
@@ -85,7 +86,7 @@ export default class MessagesArea extends React.Component {
       <h2> Messages </h2>
       <div className="messagesArea">
         <h2>{conversationTitle}</h2>
-        <ul>{this.orderedMessages(messages, user_id)}</ul>
+        <ul>{this.orderedMessages(this.props.conversation.messages, user_id)}</ul>
         <NewMessageForm conversation_id={conversationId} user_id={user_id} />
       </div>
       <button onClick={() => {this.handleOnClick()}}>VIDEO!!!</button>
