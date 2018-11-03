@@ -13,9 +13,10 @@ const Cable = ({ conversations, handleReceivedMessage, handleReceivedVideo }) =>
             channel={{ channel: 'VideosChannel', conversation: conversation.id }}
             onReceived={handleReceivedVideo}
           />
+
           <ActionCable
             key={"m" + conversation.id}
-            channel={{ channel: 'MessagesChannels', conversation: conversation.id }}
+            channel={{ channel: 'MessagesChannel', conversation: conversation.id }}
             onReceived={handleReceivedMessage}
           />
           </Fragment>
