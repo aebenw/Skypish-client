@@ -28,19 +28,6 @@ class ConversationsList extends React.Component {
     fetch(API_ROOT+`/users`)
       .then(res => res.json())
       .then(users => this.setState({users:users}));
-
-      let localVideo = document.getElementById("local-video");
-
-
-        navigator.mediaDevices
-          .getUserMedia({ video: true, audio: true })
-            .then(stream => {
-              localVideo.srcObject = stream;
-              localVideo.muted = true;
-              this.setLocalStream(stream)
-            })
-
-
   };
 
 
@@ -57,6 +44,7 @@ class ConversationsList extends React.Component {
   };
 
   handleReceivedMessage = response => {
+    debugger
     const { message } = response;
 
     const conversations = [...this.state.conversations];
@@ -101,14 +89,7 @@ class ConversationsList extends React.Component {
   const EXCHANGE = "EXCHANGE";
   const REMOVE_USER = "REMOVE_USER";
   let videoContainer = document.getElementById('videocontainer')
-  let pc = new RTCPeerConnection({
-    iceServers:
-    [
-      {
-        urls: "stun:stun.l.google.com:19302"
-      }
-    ]
-  });
+  let pc = new RTCPeerConnection(ICE);
   let connectObj = {}
   connectObj[userId] = pc;
   pc.addStream(this.state.localstream.stream);
@@ -227,6 +208,8 @@ class ConversationsList extends React.Component {
   }
 
   setLocalStream = (stream) => {
+
+
     this.setState({ localstream: {stream} })
   }
 
@@ -253,10 +236,10 @@ class ConversationsList extends React.Component {
             handleReceivedMessage={this.handleReceivedMessage}
             handleReceivedVideo={this.handleReceivedVideo}
           />
+
         ) : null}
         <h2>Conversations</h2>
         <ul>{mapConversations(conversations, this.handleClick, this.props.user.name)}</ul>
-        {/* <NewConversationForm /> */}
         {activeConversation ? (
           <MessagesArea
             conversation={findActiveConversation(

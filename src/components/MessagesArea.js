@@ -2,7 +2,6 @@ import React from 'react';
 import { API_ROOT, HEADERS } from '../constants';
 import NewMessageForm from './NewMessageForm';
 
-const Peer = require('simple-peer');
 
 export default class MessagesArea extends React.Component {
     // {user_id, username, conversation: { id, title, messages, receiver: {name, receiver_id}}} = this.props
@@ -22,25 +21,22 @@ export default class MessagesArea extends React.Component {
   }
 
    handleOnClick = () => {
-  // let localVideo = document.getElementById("local-video");
+
+    let localVideo = document.getElementById("local-video");
 
 
-    // navigator.mediaDevices
-    // .getUserMedia({ video: true, audio: true })
-    //   .then(stream => {
-    //     localVideo.srcObject = stream;
-    //     localVideo.muted = true;
-    //     this.props.setLocalStream(stream)
-    //   })
-      this.gotMedia()
-  }
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then(stream => {
+        localVideo.srcObject = stream;
+          localVideo.muted = true;
+          this.props.setLocalStream(stream)
+        }).then(() => this.makeOffer())
+    }
 
-   gotMedia = () => {
-    // var peer1 = new Peer({ initiator: true, stream: stream })
 
+    makeOffer = () => {
     const JOIN_ROOM = "JOIN_ROOM";
-    const EXCHANGE = "EXCHANGE";
-    const REMOVE_USER = "REMOVE_USER";
 
     const data = { video: {
       kind: JOIN_ROOM,
@@ -56,16 +52,6 @@ export default class MessagesArea extends React.Component {
       body: JSON.stringify(data)
     })
 
-    // var peer2 = new Peer()
-
-    // peer1.on('signal', function (data) {
-    // peer2.signal(data)
-    //
-    // peer2.on( 'stream', function (stream) {
-    //   var video = document.querySelector('video')
-    //   // video.src = window.URL.createObjectURL(stream)
-    //   video.play()
-    // })
   }
 
 
