@@ -18,7 +18,7 @@ class ConversationsList extends React.Component {
     users:[],
     pcPeers: {},
     localstream: '',
-    conversationId: ''
+    conversationId: '',
   }
 }
 
@@ -62,7 +62,6 @@ class ConversationsList extends React.Component {
     const JOIN_ROOM = "JOIN_ROOM";
     const EXCHANGE = "EXCHANGE";
     const REMOVE_USER = "REMOVE_USER";
-
       this.setState({conversationId: video.conversation_id})
       if (video.from == this.state.user_id) return;
       switch (video.kind) {
@@ -80,7 +79,17 @@ class ConversationsList extends React.Component {
 
 
   joinRoom = data => {
-    this.createPC(data.from, true);
+
+    let localVideo = document.getElementById("local-video");
+
+    navigator.mediaDevices
+      .getUserMedia({ video: true, audio: true })
+      .then(stream => {
+        localVideo.srcObject = stream;
+          localVideo.muted = true;
+          this.setLocalStream(stream)
+        }).then(()=> console.log("set local stream check", this.state))
+        .then(() => this.createPC(data.from, true))
   };
 
   createPC = (userId, isOffer) => {
@@ -93,9 +102,6 @@ class ConversationsList extends React.Component {
   let connectObj = {}
   connectObj[userId] = pc;
   pc.addStream(this.state.localstream.stream);
-  // debugger
-  console.log("pc obj", pc)
-  console.log("pcpeers obj", connectObj)
 
   isOffer &&
     pc
