@@ -21,9 +21,3 @@ const Cable = ({ conversations, handleReceivedMessage, handleReceivedVideo }) =>
 };
 
 export default Cable;
-
-{/* <ActionCable
-  key={conversation.id}
-  channel={{ channel: 'MessagesChannel', conversation: conversation.id }}
-  onReceived={handleReceivedMessage}
-/> */}
