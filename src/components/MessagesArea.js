@@ -54,8 +54,6 @@ export default class MessagesArea extends React.Component {
 
   }
 
-
-
    orderedMessages = (messages, user) => {
     const sortedMessages = messages.sort(
       (a, b) => new Date(a.created_at) - new Date(b.created_at)
