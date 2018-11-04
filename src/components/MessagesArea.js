@@ -26,7 +26,7 @@ export default class MessagesArea extends React.Component {
 
 
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
+      .getUserMedia({ video: { width: 400, height: 300 }, audio: true })
       .then(stream => {
         localVideo.srcObject = stream;
           localVideo.muted = true;

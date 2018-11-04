@@ -8,6 +8,7 @@ export default class UsersContainer extends Component {
     const users =  this.props.users.map(user => <Users key={user.id} user={user}  handleUsersClick={this.props.handleUsersClick}/>)
     return(
       <Fragment>
+        <h2>All Users</h2>
         {users}
       </Fragment>
     )

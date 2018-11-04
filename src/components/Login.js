@@ -31,9 +31,9 @@ const Login = ({ fetchUser }) => {
 
         </form>
 
-        <div className="ui message">
+        {/* <div className="ui message">
           New to us? <a href="https://s.codepen.io/voltron2112/debug/PqrEPM?">Register</a>
-        </div>
+        </div> */}
       </div>
     </div>
   )

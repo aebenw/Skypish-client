@@ -20,10 +20,8 @@ body > .grid {
 .image {
   margin-top: -100px;
 }
-.column {
-  max-width: 450px;
-}
 
 #login-box {
-  margin-top: 90pt
+  margin-top: 90pt;
+  max-width: 450px;
 }
