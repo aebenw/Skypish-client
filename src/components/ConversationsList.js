@@ -6,6 +6,7 @@ import MessagesArea from './MessagesArea';
 import Cable from './Cable';
 import UsersContainer from '../containers/UsersContainer'
 import VideoContainer from '../containers/VideoContainer'
+import { Grid, Image, Rail, Segment } from 'semantic-ui-react'
 
 class ConversationsList extends React.Component {
   constructor(props){
@@ -15,7 +16,7 @@ class ConversationsList extends React.Component {
     user_id: this.props.user.id,
     username: this.props.user.name,
     activeConversation: null,
-    users:[],
+    users:this.props.user.inactive,
     pcPeers: {},
     localstream: '',
     conversationId: '',
@@ -24,15 +25,9 @@ class ConversationsList extends React.Component {
 
 
 
-  componentDidMount = () => {
-    fetch(API_ROOT+`/users`)
-      .then(res => res.json())
-      .then(users => this.setState({users:users}));
-  };
-
-
 
   handleClick = id => {
+
     this.setState({ activeConversation: id });
   };
 
@@ -83,7 +78,7 @@ class ConversationsList extends React.Component {
     let localVideo = document.getElementById("local-video");
 
     navigator.mediaDevices
-      .getUserMedia({ video: true, audio: true })
+      .getUserMedia({ video: { width: 400, height: 300 }, audio: true })
       .then(stream => {
         localVideo.srcObject = stream;
           localVideo.muted = true;
@@ -97,7 +92,7 @@ class ConversationsList extends React.Component {
   const JOIN_ROOM = "JOIN_ROOM";
   const EXCHANGE = "EXCHANGE";
   const REMOVE_USER = "REMOVE_USER";
-  let videoContainer = document.getElementById('videocontainer')
+  let friendVideo = document.getElementById('friend-video')
   let pc = new RTCPeerConnection(ICE);
   let connectObj = {}
   connectObj[userId] = pc;
@@ -138,7 +133,7 @@ class ConversationsList extends React.Component {
     element.id = `remoteVideoContainer+${userId}`;
     element.autoplay = "autoplay";
     element.srcObject = event.stream;
-    videoContainer.appendChild(element);
+    friendVideo.appendChild(element);
   };
 
   pc.oniceconnectionstatechange = event => {
@@ -203,6 +198,15 @@ class ConversationsList extends React.Component {
 };
 
   handleUsersClick = (obj) => {
+    // console.log(this.state)
+    // debugger
+    let copy = [...this.state.users]
+    copy = copy.filter(user => user.id !== obj.id)
+    this.setState({
+      users: copy
+    })
+
+
     fetch(API_ROOT+"/followers",{
       method: "POST",
       headers:{
@@ -227,10 +231,14 @@ class ConversationsList extends React.Component {
   });
   };
 
+
   render = () => {
     const { conversations, activeConversation, user_id, username } = this.state;
     return (
-      <div className="conversationsList">
+      <React.Fragment>
+        <Grid>
+        <Grid.Row columns={3} divided >
+          <Grid.Column width={4}>
         <UsersContainer users={this.state.users} handleUsersClick={this.handleUsersClick} />
         <ActionCable
           channel={{ channel: 'ConversationsChannel' }}
@@ -244,20 +252,42 @@ class ConversationsList extends React.Component {
           />
 
         ) : null}
+      </Grid.Column>
+
+      <Grid.Column width={8} >
+          {activeConversation ? (
+            <MessagesArea
+              conversation={findActiveConversation(
+                conversations,
+                activeConversation
+              )} user_id={user_id} username={username} setLocalStream={this.setLocalStream}
+            />
+          ) : <h1>Message Area</h1>}
+        </Grid.Column>
+
+
+
+      <Grid.Column width={4} >
         <h2>Conversations</h2>
         <ul>{mapConversations(conversations, this.handleClick, this.props.user.name)}</ul>
-        {activeConversation ? (
-          <MessagesArea
-            conversation={findActiveConversation(
-              conversations,
-              activeConversation
-            )} user_id={user_id} username={username} setLocalStream={this.setLocalStream}
-          />
-        ) : null}
-        <div id="videocontainer">
-        <VideoContainer handleJoinSession={this.handleJoinSession} handleLeaveSession={this.handleLeaveSession} />
+        </Grid.Column>
+      </Grid.Row>
+
+    <Grid.Row columns={2}>
+      <Grid.Column >
+      <div id="videocontainer">
+        <video  id="local-video"  autoPlay> </video>
       </div>
-      </div>
+    </Grid.Column>
+      <Grid.Column >
+        <div id="friend-video">
+        </div>
+
+      </Grid.Column>
+
+    </Grid.Row>
+  </Grid>
+  </React.Fragment>
     );
   };
 }

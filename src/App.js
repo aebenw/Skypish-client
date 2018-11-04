@@ -50,7 +50,7 @@ class App extends Component {
   render() {
     console.log(API_ROOT)
     return (
-      <div className="App">
+      <div >
         {this.state.currentUser ? <ConversationsList user={this.state.currentUser}/> : <Login fetchUser={this.fetchUser}/>}
       </div>
     );
