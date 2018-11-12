@@ -39,7 +39,7 @@ class ConversationsList extends React.Component {
   };
 
   handleReceivedMessage = response => {
-    debugger
+    // debugger
     const { message } = response;
 
     const conversations = [...this.state.conversations];
