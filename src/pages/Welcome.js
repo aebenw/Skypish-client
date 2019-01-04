@@ -1,7 +1,7 @@
 import React,{Fragment} from 'react';
 
 import LogContainer from '../containers/LogInSignUp';
-import WelcomeMessage from '../components/auth/WelcomeMessage'
+import WelcomeMessage from '../components/welcome/WelcomeMessage'
 
 
 

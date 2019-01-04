@@ -15,9 +15,11 @@ const WelcomeMessage = () => {
           <p>
           To test the app you can log in in two tabs with two users, or on two separate computers -
           <p>
-            eben@eben.com
-            juan@juan.com
-            pass: test
+            <ul>
+              <li>eben@eben.com</li>
+            <li>juan@juan.com</li>
+            <li>pass: test</li>
+            </ul>
             </p>
           </p>
           <p>
