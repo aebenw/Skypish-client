@@ -29,7 +29,6 @@ class ConversationsList extends React.Component {
 
 
   handleClick = id => {
-    console.log("handleClick")
     this.setState({ activeConversation: id });
   };
 
@@ -116,7 +115,7 @@ class ConversationsList extends React.Component {
       })
 
   pc.onicecandidate = event => {
-    // debugger
+    debugger
     event.candidate &&
       this.broadcastData({video: {
         conversation_id: this.state.conversationId,
@@ -151,8 +150,7 @@ class ConversationsList extends React.Component {
   console.log("pc obj outside of function", pc)
   this.setState({
     pcPeers: connectObj
-  }, () => console.log(this.state))
-  // debugger
+  })
   return pc;
 };
 
@@ -160,19 +158,20 @@ class ConversationsList extends React.Component {
 
   let pc;
   if (!this.state.pcPeers[data.from]) {
-    // debugger
     pc = this.createPC(data.from, false);
   } else {
     pc =  this.state.pcPeers[data.from];
   }
 
-  // debugger
   if (data.candidate) {
+    // debugger
     let iceCand = new RTCIceCandidate(JSON.parse(data.candidate))
     pc
       .addIceCandidate(iceCand)
-      .then(resp => this.setState({pcPeers: { [data.from]: resp} }))
-        .then(console.log)
+      .then(resp => {
+        console.log(resp, "resp")
+        return this.setState({pcPeers: { [data.from]: resp} })
+      })
   }
   // debugger
   if (data.sdp) {
@@ -239,7 +238,7 @@ class ConversationsList extends React.Component {
       <Fragment>
         <div class="container-fluid">
           <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-            <h1 class="h2">Dashboard</h1>
+            <h1 class="h2">Skypish</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
               <div class="btn-group mr-2">
                 <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -299,12 +298,12 @@ class ConversationsList extends React.Component {
 
 
 
-      {/* <div id="videocontainer">
+      <div id="videocontainer">
         <video  id="local-video"  autoPlay> </video>
       </div>
 
         <div id="friend-video">
-        </div> */}
+        </div>
 
   </Fragment>
     );

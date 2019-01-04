@@ -1,9 +1,9 @@
-import React from 'react';
+import React,{Component} from 'react';
 import { API_ROOT, HEADERS } from '../constants';
 import NewMessageForm from './NewMessageForm';
 
 
-export default class MessagesArea extends React.Component {
+export default class MessagesArea extends Component {
     // {user_id, username, conversation: { id, title, messages, receiver: {name, receiver_id}}} = this.props
 
   constructor(props){

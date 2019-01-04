@@ -16,24 +16,24 @@ class App extends Component {
     }
   }
 
-  componentDidMount = () => {
-    let token = localStorage.getItem("jwt")
-    if (token && !this.state.currentUser.name ) {
-      fetch(API_ROOT + "/current_user", {
-        headers: {
-          "Content-Type" : "application/json",
-          Accept: "application/json",
-          Authorization: token
-        }
-      })
-      .then(r => r.json())
-      .then(user => {
-        this.setState({
-        currentUser: user
-      }, () => console.log(this.state))
-      })
-    }
-  }
+  // componentDidMount = () => {
+  //   let token = localStorage.getItem("jwt")
+  //   if (token && !this.state.currentUser.name ) {
+  //     fetch(API_ROOT + "/current_user", {
+  //       headers: {
+  //         "Content-Type" : "application/json",
+  //         Accept: "application/json",
+  //         Authorization: token
+  //       }
+  //     })
+  //     .then(r => r.json())
+  //     .then(user => {
+  //       this.setState({
+  //       currentUser: user
+  //     }, () => console.log(this.state))
+  //     })
+  //   }
+  // }
 
 
 
