@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react'
+import React from 'react'
 
 export default class UsersContainer extends React.Component {
 
@@ -9,10 +9,9 @@ export default class UsersContainer extends React.Component {
   render(){
     const { name } = this.props.user
     return(
-      <Fragment>
+      <li class="nav-item">
         <p onClick={this.handleClick}>{name}</p>
-
-      </Fragment>
+      </li>
     )
   }
 }

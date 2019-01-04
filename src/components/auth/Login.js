@@ -1,15 +1,9 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 
 const Login = ({ fetchUser }) => {
 
   return (
-    <div className="ui middle aligned center aligned grid">
-      <div id="login-box" className="column">
-        <h2 className="ui image header">
-          <div className="content">
-            Log-in to your account
-          </div>
-        </h2>
+
         <form onSubmit={(event) => fetchUser(event)} className="ui large form">
           <div className="ui stacked secondary  segment">
             <div className="field">
@@ -31,11 +25,7 @@ const Login = ({ fetchUser }) => {
 
         </form>
 
-        {/* <div className="ui message">
-          New to us? <a href="https://s.codepen.io/voltron2112/debug/PqrEPM?">Register</a>
-        </div> */}
-      </div>
-    </div>
+
   )
 }
 
