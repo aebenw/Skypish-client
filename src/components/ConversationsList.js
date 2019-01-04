@@ -1,6 +1,8 @@
 import React,{Fragment} from 'react';
 import { ActionCable } from 'react-actioncable-provider';
 import { API_ROOT, ICE, HEADERS } from '../constants';
+
+import ConversationsCont from '../containers/ConversationsCont'
 import NewConversationForm from './NewConversationForm';
 import MessagesArea from './MessagesArea';
 import Cable from './Cable';
@@ -27,7 +29,7 @@ class ConversationsList extends React.Component {
 
 
   handleClick = id => {
-
+    console.log("handleClick")
     this.setState({ activeConversation: id });
   };
 
@@ -236,62 +238,172 @@ class ConversationsList extends React.Component {
     return (
       <Fragment>
         <div class="container-fluid">
-          <div class="row">
-            <UserContainer users={this.state.users} handleUsersClick={this.handleUsersClick} />
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-              <div class="chartjs-size-monitor" style={{
-                  "position" : "absolute",
-                  "left" : "0px",
-                  "top" : "0px",
-                  "right" : "0px",
-                  "bottom" : "0px",
-                  "overflow" : "hidden",
-                  "pointer-events" : "none",
-                  "visibility" : "hidden",
-                  "z-index" : "-1"
-                }}>
-                <div class="chartjs-size-monitor-expand" style={{
-                    "position" : "absolute",
-                    "left" : "0",
-                    "top" : "0",
-                    "right" : "0",
-                    "bottom" : "0",
-                    "overflow" : "hidden",
-                    "pointer-events" : "none",
-                    "visibility" : "hidden",
-                    "z-index" : "-1"
-                  }}>
-                  <div style={{
-                      "position" : "absolute",
-                      "width" : "1000000px",
-                      "height" : "1000000px",
-                      "left" : "0",
-                      "top" : "0"
-                    }}></div>
-                </div>
-                <div class="chartjs-size-monitor-shrink" style={{
-                    "position" : "absolute",
-                    "left" : "0",
-                    "top" : "0",
-                    "right" : "0",
-                    "bottom" : "0",
-                    "overflow" : "hidden",
-                    "pointer-events" : "none",
-                    "visibility" : "hidden",
-                    "z-index" : "-1"
-                  }}>
-                  <div style={{
-                      "position" : "absolute",
-                      "width" : "200%",
-                      "height" : "200%",
-                      "left" : "0",
-                      "top" : "0"
-                    }}></div>
-                </div>
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+            <h1 class="h2">Dashboard</h1>
+            <div class="btn-toolbar mb-2 mb-md-0">
+              <div class="btn-group mr-2">
+                <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+                <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
               </div>
-            </main>
+              <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                This week
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3">
+                <div class="btn-panel btn-panel-conversation">
+                    <a href="" class="btn  col-lg-6 send-message-btn " role="button"><i class="fa fa-search"></i> Search</a>
+                    <a href="" class="btn  col-lg-6  send-message-btn pull-right" role="button"><i class="fa fa-plus"></i> New Message</a>
+                </div>
+            </div>
+          </div>
+          <div className="row">
+            <ConversationsCont conversations={conversations} handleClick={this.handleClick} name={this.props.user.name} />
+            {/* <UserContainer users={this.state.users} handleUsersClick={this.handleUsersClick} /> */}
+
+                  <ActionCable
+                    channel={{ channel: 'ConversationsChannel' }}
+                    onReceived={this.handleReceivedConversation}
+                  />
+                  {this.state.conversations.length ? (
+                    <Cable
+                      conversations={conversations}
+                      handleReceivedMessage={this.handleReceivedMessage}
+                      handleReceivedVideo={this.handleReceivedVideo}
+                    />
+
+                  ) : null}
+            {activeConversation ? (
+              <MessagesArea
+                conversation={findActiveConversation(
+                  conversations,
+                  activeConversation
+                )} user_id={user_id} username={username} setLocalStream={this.setLocalStream}
+              />
+            ) : null}
           </div>
         </div>
+
+
+
+
+
+
+
+
+
+      {/* <div id="videocontainer">
+        <video  id="local-video"  autoPlay> </video>
+      </div>
+
+        <div id="friend-video">
+        </div> */}
+
+  </Fragment>
+    );
+  };
+}
+
+export default ConversationsList;
+
+
+const findActiveConversation = (conversations, activeConversation, name) => {
+  return conversations.find(
+    conversation => conversation.id === activeConversation
+  );
+};
+
+
+
+//------------------
+
+  // render = () => {
+    // const { conversations, activeConversation, user_id, username } = this.state;
+    // return (
+    //   <Fragment>
+    //     <div class="container-fluid">
+    //       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    //         <h1 class="h2">Dashboard</h1>
+    //         <div class="btn-toolbar mb-2 mb-md-0">
+    //           <div class="btn-group mr-2">
+    //             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+    //             <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+    //           </div>
+    //           <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+    //             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar">
+    //               <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+    //               <line x1="16" y1="2" x2="16" y2="6"></line>
+    //               <line x1="8" y1="2" x2="8" y2="6"></line>
+    //               <line x1="3" y1="10" x2="21" y2="10"></line>
+    //             </svg>
+    //             This week
+    //           </button>
+    //         </div>
+    //       </div>
+    //       <div class="row">
+    //         <UserContainer users={this.state.users} handleUsersClick={this.handleUsersClick} />
+    //         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    //           <div class="chartjs-size-monitor" style={{
+    //               "position" : "absolute",
+    //               "left" : "0px",
+    //               "top" : "0px",
+    //               "right" : "0px",
+    //               "bottom" : "0px",
+    //               "overflow" : "hidden",
+    //               "pointer-events" : "none",
+    //               "visibility" : "hidden",
+    //               "z-index" : "-1"
+    //             }}>
+    //             <div class="chartjs-size-monitor-expand" style={{
+    //                 "position" : "absolute",
+    //                 "left" : "0",
+    //                 "top" : "0",
+    //                 "right" : "0",
+    //                 "bottom" : "0",
+    //                 "overflow" : "hidden",
+    //                 "pointer-events" : "none",
+    //                 "visibility" : "hidden",
+    //                 "z-index" : "-1"
+    //               }}>
+    //               <div style={{
+    //                   "position" : "absolute",
+    //                   "width" : "1000000px",
+    //                   "height" : "1000000px",
+    //                   "left" : "0",
+    //                   "top" : "0"
+    //                 }}></div>
+    //             </div>
+    //             <div class="chartjs-size-monitor-shrink" style={{
+    //                 "position" : "absolute",
+    //                 "left" : "0",
+    //                 "top" : "0",
+    //                 "right" : "0",
+    //                 "bottom" : "0",
+    //                 "overflow" : "hidden",
+    //                 "pointer-events" : "none",
+    //                 "visibility" : "hidden",
+    //                 "z-index" : "-1"
+    //               }}>
+    //               <div style={{
+    //                   "position" : "absolute",
+    //                   "width" : "200%",
+    //                   "height" : "200%",
+    //                   "left" : "0",
+    //                   "top" : "0"
+    //                 }}></div>
+    //             </div>
+    //           </div>
+    //         </main>
+    //       </div>
+    //     </div>
+
 
         {/* <Grid>
         <Grid.Row columns={3} divided >
@@ -344,7 +456,7 @@ class ConversationsList extends React.Component {
 
     </Grid.Row>
   </Grid> */}
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    {/* <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script>
       window.jQuery || document.write('<script src="/docs/4.2/assets/js/vendor/jquery-slim.min.js"></script>')
     </script>
@@ -354,36 +466,9 @@ class ConversationsList extends React.Component {
     <script src="dashboard.js"></script>
   </Fragment>
     );
-  };
-}
+  }; */}
 
-export default ConversationsList;
-
-
-const findActiveConversation = (conversations, activeConversation, name) => {
-  return conversations.find(
-    conversation => conversation.id === activeConversation
-  );
-};
-
-const mapConversations = (conversations, handleClick, name) => {
-  return conversations.map(conversation => {
-    if (conversation.receiver.name === name){
-    return (
-      <li key={conversation.id} onClick={() => handleClick(conversation.id)}>
-        {conversation.author.name}
-      </li>
-    )} else {
-      return (
-        <li key={conversation.id} onClick={() => handleClick(conversation.id)}>
-          {conversation.receiver.name}
-        </li>
-
-    );
-  }
-})
-};
-
+  //-----------------
 
 // import React from 'react';
 // import { ActionCable } from 'react-actioncable-provider';

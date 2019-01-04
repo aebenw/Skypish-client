@@ -59,24 +59,31 @@ export default class MessagesArea extends React.Component {
       (a, b) => new Date(a.created_at) - new Date(b.created_at)
     );
     return sortedMessages.map(message => {
-      return <li key={message.id}>{message.text}</li>;
+      return (
+        <div key={message.id} class="media msg ">
+          <div class="media-body">
+              <small class="pull-right time"><i class="fa fa-clock-o"></i> 12:10am</small>
+              <h5 class="media-heading">{message.author_name}</h5>
+              <small class="col-lg-10">{message.text}</small>
+                </div>
+            </div>
+      );
     })
   }
 
   render() {
     const {user_id, username, conversationId, conversationTitle, messages, receiverName, receiverId} = this.state
   return (
-    <React.Fragment>
-      <h2> Messages </h2>
-      <div className="messagesArea">
+        <div class="message-wrap col-lg-8">
+            <div class="msg-wrap">
+              <h2> Messages </h2>
+      {/* <div className="messagesArea"> */}
         <h2>{conversationTitle}</h2>
         <ul>{this.orderedMessages(this.props.conversation.messages, user_id)}</ul>
         <NewMessageForm conversation_id={conversationId} user_id={user_id} />
       </div>
-      <button onClick={() => {this.handleOnClick()}}>VIDEO!!!</button>
-    </React.Fragment>
+      <button onClick={() => {this.handleOnClick()}}>VIDEO</button>
+    </div>
     )
   }
 }
-
-// helpers

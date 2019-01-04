@@ -1,17 +1,14 @@
 import React from 'react'
 
-export default class UsersContainer extends React.Component {
-
-  handleClick =  () => {
-    this.props.handleUsersClick(this.props.user)
+const User = ({user, handleUsersClick}) => {
+  return(
+    <div class="media conversation">
+      <div onClick={() => handleUsersClick(user)} class="media-body">
+          <h5 class="media-heading">{user.name}</h5>
+          {/* <small>Hello</small> */}
+      </div>
+    </div>
+  )
 }
 
-  render(){
-    const { name } = this.props.user
-    return(
-      <li class="nav-item">
-        <p onClick={this.handleClick}>{name}</p>
-      </li>
-    )
-  }
-}
+export default User
