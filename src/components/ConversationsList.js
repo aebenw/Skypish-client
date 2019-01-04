@@ -8,7 +8,6 @@ import MessagesArea from './MessagesArea';
 import Cable from './Cable';
 import UserContainer from '../containers/UserContainer'
 import VideoContainer from '../containers/VideoContainer'
-// import { Grid, Image, Rail, Segment } from 'semantic-ui-react'
 
 class ConversationsList extends React.Component {
   constructor(props){
@@ -115,7 +114,7 @@ class ConversationsList extends React.Component {
       })
 
   pc.onicecandidate = event => {
-    debugger
+    // debugger
     event.candidate &&
       this.broadcastData({video: {
         conversation_id: this.state.conversationId,
