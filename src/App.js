@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
-import Login from './components/Login'
+// import Login from './components/Login'
+
+//Components
+import Welcome from './pages/Welcome'
 import ConversationsList from './components/ConversationsList';
+import Test from './components/Test'
 import { API_ROOT } from './constants';
 
 class App extends Component {
@@ -8,14 +12,29 @@ class App extends Component {
   constructor(){
     super()
     this.state={
-      auth: {currentUser: {}}
+      currentUser: {}
     }
   }
 
   // componentDidMount = () => {
   //   let token = localStorage.getItem("jwt")
-  //
+  //   if (token && !this.state.currentUser.name ) {
+  //     fetch(API_ROOT + "/current_user", {
+  //       headers: {
+  //         "Content-Type" : "application/json",
+  //         Accept: "application/json",
+  //         Authorization: token
+  //       }
+  //     })
+  //     .then(r => r.json())
+  //     .then(user => {
+  //       this.setState({
+  //       currentUser: user
+  //     }, () => console.log(this.state))
+  //     })
+  //   }
   // }
+
 
 
   fetchUser = (event) => {
@@ -40,7 +59,7 @@ class App extends Component {
   }
 
   handleLogin = (res) => {
-    // localStorage.setItem("jwt", res.jwt)
+    localStorage.setItem("jwt", res.jwt)
       this.setState({
       currentUser: res.current_user.user
     })
@@ -48,10 +67,12 @@ class App extends Component {
 
 
   render() {
-    console.log(API_ROOT)
     return (
       <div >
-        {this.state.currentUser ? <ConversationsList user={this.state.currentUser}/> : <Login fetchUser={this.fetchUser}/>}
+        {this.state.currentUser.name ?
+          <ConversationsList user={this.state.currentUser}/>
+          : <Welcome fetchUser={this.fetchUser}/>}
+          {/* <Test /> */}
       </div>
     );
   }

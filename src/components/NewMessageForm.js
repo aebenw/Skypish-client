@@ -27,6 +27,20 @@ class NewMessageForm extends React.Component {
     this.setState({ text: '' });
   };
 
+
+
+  // <div class="send-wrap ">
+  //
+  //     <textarea class="form-control send-message" rows="3" placeholder="Write a reply..."></textarea>
+  //
+  //
+  // </div>
+  // <div class="btn-panel">
+  //     <a href="" class=" col-lg-3 btn   send-message-btn " role="button"><i class="fa fa-cloud-upload"></i> Add Files</a>
+  //     <a href="" class=" col-lg-4 text-right btn   send-message-btn pull-right" role="button"><i class="fa fa-plus"></i> Send Message</a>
+  // </div>
+
+
   render = () => {
     return (
       <div className="newMessageForm">
