@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import Login from './components/Login'
 
 //Components
 import Welcome from './pages/Welcome'
