@@ -1,5 +1,5 @@
 import React from 'react';
-import { API_ROOT, HEADERS } from '../constants';
+import { API_ROOT, HEADERS } from '../../constants';
 
 class NewMessageForm extends React.Component {
   state = {
@@ -28,6 +28,21 @@ class NewMessageForm extends React.Component {
   };
 
 
+  //   return (
+  //     <div className="newMessageForm">
+  //       <form onSubmit={this.handleSubmit}>
+  //         <label>New Message:</label>
+  //         <br />
+  //         <input
+  //           type="text"
+  //           value={this.state.text}
+  //           onChange={this.handleChange}
+  //         />
+  //         <input type="submit" />
+  //       </form>
+  //     </div>
+  //   );
+  // };
 
   // <div class="send-wrap ">
   //
@@ -41,18 +56,17 @@ class NewMessageForm extends React.Component {
   // </div>
 
 
+
   render = () => {
     return (
-      <div className="newMessageForm">
+      <div className="send-wrap">
         <form onSubmit={this.handleSubmit}>
-          <label>New Message:</label>
-          <br />
-          <input
+          <textarea className="form-control send-message" rows="3" placeholder="Write a reply..."
             type="text"
             value={this.state.text}
             onChange={this.handleChange}
-          />
-          <input type="submit" />
+          ></textarea>
+          <button className="text-right btn   send-message-btn pull-right" type="submit">Submit</button>
         </form>
       </div>
     );

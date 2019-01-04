@@ -21,8 +21,6 @@ const Login = ({ fetchUser }) => {
             <input type="submit" className="ui fluid large teal submit button" value="Login" />
           </div>
 
-          <div className="ui error message"></div>
-
         </form>
 
 

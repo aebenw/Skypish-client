@@ -65,7 +65,7 @@ div.welcome div.column * {
 .msg-wrap
 {
     padding:10px;
-    max-height: 400px;
+    height: 400px;
     overflow: auto;
 
 }

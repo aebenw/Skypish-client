@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 //components
-import Login from '../components/auth/Login'
+import Login from '../components/welcome/Login'
 
 class LogInSignUp extends Component {
 

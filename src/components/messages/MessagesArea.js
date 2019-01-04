@@ -1,10 +1,10 @@
 import React,{Component} from 'react';
-import { API_ROOT, HEADERS } from '../constants';
+import { API_ROOT, HEADERS } from '../../constants';
 import NewMessageForm from './NewMessageForm';
 
 
 export default class MessagesArea extends Component {
-    // {user_id, username, conversation: { id, title, messages, receiver: {name, receiver_id}}} = this.props
+
 
   constructor(props){
     super(props)
@@ -72,12 +72,11 @@ export default class MessagesArea extends Component {
   }
 
   render() {
-    const {user_id, username, conversationId, conversationTitle, messages, receiverName, receiverId} = this.state
+    const {user_id, conversationId, conversationTitle } = this.state
   return (
         <div class="message-wrap col-lg-8">
             <div class="msg-wrap">
               <h2> Messages </h2>
-      {/* <div className="messagesArea"> */}
         <h2>{conversationTitle}</h2>
         <ul>{this.orderedMessages(this.props.conversation.messages, user_id)}</ul>
         <NewMessageForm conversation_id={conversationId} user_id={user_id} />
