@@ -10,9 +10,11 @@ const WelcomeMessage = () => {
 
         <p>This is a video sharing and live messaging application. It allows two users to video chat and send each other messages.</p>
 
-        <p>*The APP is a little buggy and needs some polishing. The bulk of it was built in a 3 day code sprint. The video button needs to sometimes be pressed twice for the connection to be made, it sometimes needs to be pressed on both ends, it sometimes just needs a second.*</p>
+        <p>*The app needs a little cosmetic work and some polishing. The bulk of it was built in a 3 day code sprint. The video funtion works first try 80% of the time. If it doesn't work on first try, try clicking the video button from the other user, the user who did not initiate the video chat. It also needs some polishing - user creation/validation, etc*</p>
 
-        <p>To test the app you can log in in two tabs with two users, or on two separate computers -</p>
+        <p>Auth was implimented but its commented out in the App.js file. When testing on a single computer, it makes it little cumbersome to log into two profiles.</p>
+
+        <p>To test the app you can login with the two users listed below two tabs with the two users listed below, or on two separate computers.</p>
 
         <ul>
           <li>eben@eben.com</li>
@@ -23,10 +25,9 @@ const WelcomeMessage = () => {
         <p>Tech Specks</p>
 
         <ul>
-          <li>-React for Front End and Rails for backend</li>
-          <li>-PostgreSQL for DB</li>
-          <li>-Communicates messages and video information using ActionCable which uses Websockets and Redis.</li>
-          <li>-Acompishes a peer to peer video connection with WebRTC.</li>
+          <li>React for Front End and Rails for backend</li>
+          <li>PostgreSQL for DB</li>
+          <li>Communicates messages and video information using WebRTC through ActionCable which uses Websockets and Redis.</li>
         </ul>
       </div>
     </div>

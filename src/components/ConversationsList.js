@@ -237,7 +237,7 @@ class ConversationsList extends Component {
     const { conversations, activeConversation, user_id, username, active } = this.state;
     return (
       <Fragment>
-        <div class="container-fluid">
+        <div className="container-fluid">
           <Header />
           <SideBar changeView={this.changeSideBar} />
 

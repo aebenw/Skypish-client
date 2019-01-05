@@ -24,7 +24,7 @@ const mapConversations = (conversations, handleClick, name) => {
     } else {
       return (
         <div key={conversation.id} className="media conversation">
-          <div  onClick={() => handleClick(conversation.id)} class="media-body">
+          <div  onClick={() => handleClick(conversation.id)} className="media-body">
               <h5 className="media-heading">{conversation.receiver.name}</h5>
           </div>
         </div>

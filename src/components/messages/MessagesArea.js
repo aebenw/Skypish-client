@@ -60,11 +60,11 @@ export default class MessagesArea extends Component {
     );
     return sortedMessages.map(message => {
       return (
-        <div key={message.id} class="media msg ">
-          <div class="media-body">
-              <small class="pull-right time"><i class="fa fa-clock-o"></i> 12:10am</small>
-              <h5 class="media-heading">{message.author_name}</h5>
-              <small class="col-lg-10">{message.text}</small>
+        <div key={message.id} className="media msg ">
+          <div className="media-body">
+              <small className="pull-right time"><i className="fa fa-clock-o"></i> 12:10am</small>
+              <h5 className="media-heading">{message.author_name}</h5>
+              <small className="col-lg-10">{message.text}</small>
                 </div>
             </div>
       );
@@ -74,8 +74,8 @@ export default class MessagesArea extends Component {
   render() {
     const {user_id, conversationId, conversationTitle } = this.state
   return (
-        <div class="message-wrap col-lg-8">
-            <div class="msg-wrap">
+        <div className="message-wrap col-lg-8">
+            <div className="msg-wrap">
               <h2> Messages </h2>
         <h2>{conversationTitle}</h2>
         <ul>{this.orderedMessages(this.props.conversation.messages, user_id)}</ul>

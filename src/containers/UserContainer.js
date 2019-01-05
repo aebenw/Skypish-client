@@ -10,7 +10,7 @@ const mapUsers = (users, handleUsersClick) => {
 
 const UserContainer = ({users, handleUsersClick}) => {
   return (
-        <div class="conversation-wrap col-lg-3">
+        <div className="conversation-wrap col-lg-3">
             {mapUsers(users, handleUsersClick)}
         </div>
 
