@@ -28,7 +28,7 @@ class App extends Component {
   //     .then(user => {
   //       this.setState({
   //       currentUser: user
-  //     }, () => console.log(this.state))
+  //     })
   //     })
   //   }
   // }
@@ -61,7 +61,6 @@ class App extends Component {
     let name = event.target.name.value;
     let email = event.target.email.value;
     let password = event.target.password.value;
-    debugger
     let body = {
       user : {
         name,
