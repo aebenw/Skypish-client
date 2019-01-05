@@ -6,7 +6,7 @@ const Cable = ({ conversations, handleReceivedMessage, handleReceivedVideo }) =>
     <Fragment>
       {conversations.map(conversation => {
         return (
-          <Fragment>
+          <div key={conversation.id}>
 
           <ActionCable
             key={conversation.id}
@@ -19,7 +19,7 @@ const Cable = ({ conversations, handleReceivedMessage, handleReceivedVideo }) =>
             channel={{ channel: 'MessagesChannel', conversation: conversation.id }}
             onReceived={handleReceivedMessage}
           />
-          </Fragment>
+        </div>
         );
       })}
     </Fragment>

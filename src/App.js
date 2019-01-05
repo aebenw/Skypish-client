@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 //Components
 import Welcome from './pages/Welcome'
 import ConversationsList from './components/ConversationsList';
-import Test from './components/Test'
 import { API_ROOT } from './constants';
 
 class App extends Component {
@@ -71,7 +70,6 @@ class App extends Component {
         {this.state.currentUser.name ?
           <ConversationsList user={this.state.currentUser}/>
           : <Welcome fetchUser={this.fetchUser}/>}
-          {/* <Test /> */}
       </div>
     );
   }

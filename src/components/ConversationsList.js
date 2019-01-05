@@ -1,4 +1,4 @@
-import React,{Fragment} from 'react';
+import React,{Fragment, Component} from 'react';
 import { ActionCable } from 'react-actioncable-provider';
 import { API_ROOT, ICE, HEADERS } from '../constants';
 
@@ -12,7 +12,7 @@ import VideoContainer from '../containers/VideoContainer'
 import Header from './Header'
 import SideBar from '../containers/SideBar'
 
-class ConversationsList extends React.Component {
+class ConversationsList extends Component {
   constructor(props){
     super(props)
     this.state = {
@@ -28,37 +28,31 @@ class ConversationsList extends React.Component {
   }
 }
 
-
-
-
   handleClick = id => {
     this.setState({ activeConversation: id });
-
   };
 
-    changeSideBar = (turnary) => {
-      this.setState({
-        active: turnary
-      })
-    }
+  changeSideBar = (turnary) => {
+    this.setState({
+      active: turnary
+    })
+  }
 
-    handleUsersClick = (obj) => {
-      let copy = [...this.state.users]
-      copy = copy.filter(user => user.id !== obj.id)
-      this.setState({
-        users: copy
-      })
-
-
-      fetch(API_ROOT+"/followers",{
-        method: "POST",
-        headers:{'Content-Type': 'application/json'},
-        body: JSON.stringify({currentU:this.props.user.name,otherU:obj.name})
-      })
-
-    }
+  handleUsersClick = (obj) => {
+    let copy = [...this.state.users]
+    copy = copy.filter(user => user.id !== obj.id)
+    this.setState({
+      users: copy
+    })
 
 
+    fetch(API_ROOT+"/followers",{
+      method: "POST",
+      headers:{'Content-Type': 'application/json'},
+      body: JSON.stringify({currentU:this.props.user.name,otherU:obj.name})
+    })
+
+  }
 
   handleReceivedConversation = response => {
     const { conversation } = response;
@@ -103,7 +97,7 @@ class ConversationsList extends React.Component {
 
   joinRoom = data => {
 
-    let localVideo = document.getElementById("local-video");
+  let localVideo = document.getElementById("local-video");
 
     navigator.mediaDevices
       .getUserMedia({ video: { width: 400, height: 300 }, audio: true })
@@ -111,13 +105,12 @@ class ConversationsList extends React.Component {
         localVideo.srcObject = stream;
           localVideo.muted = true;
           this.setLocalStream(stream)
-        }).then(()=> console.log("set local stream check", this.state))
+        })
         .then(() => this.createPC(data.from, true))
   };
 
   createPC = (userId, isOffer) => {
 
-  const JOIN_ROOM = "JOIN_ROOM";
   const EXCHANGE = "EXCHANGE";
   const REMOVE_USER = "REMOVE_USER";
   let friendVideo = document.getElementById('friend-video')
@@ -143,7 +136,6 @@ class ConversationsList extends React.Component {
       })
 
   pc.onicecandidate = event => {
-    // debugger
     event.candidate &&
       this.broadcastData({video: {
         conversation_id: this.state.conversationId,
@@ -166,7 +158,7 @@ class ConversationsList extends React.Component {
 
   pc.oniceconnectionstatechange = event => {
     if (pc.iceConnectionState === "disconnected") {
-      console.log("Disconnected:", userId);
+      // console.log("Disconnected:", userId);
       this.broadcastData({video:{
         conversation_id: this.state.conversationId,
         user_id: this.state.user_id,
@@ -175,7 +167,7 @@ class ConversationsList extends React.Component {
       }});
     }
   };
-  console.log("pc obj outside of function", pc)
+  // console.log("pc obj outside of function", pc)
   this.setState({
     pcPeers: connectObj
   })
@@ -197,7 +189,6 @@ class ConversationsList extends React.Component {
     pc
       .addIceCandidate(iceCand)
       .then(resp => {
-        console.log(resp, "resp")
         return this.setState({pcPeers: { [data.from]: resp} })
       })
   }
@@ -281,12 +272,7 @@ class ConversationsList extends React.Component {
           </div>
         </div>
 
-      <div id="videocontainer">
-        <video  id="local-video"  autoPlay> </video>
-      </div>
-
-        <div id="friend-video">
-        </div>
+        <VideoContainer />
 
   </Fragment>
     );
