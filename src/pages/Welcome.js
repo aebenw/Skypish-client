@@ -5,7 +5,7 @@ import WelcomeMessage from '../components/welcome/WelcomeMessage'
 
 
 
-const Welcome = ({fetchUser}) => {
+const Welcome = ({fetchUser, createUser}) => {
 
   return (
     <Fragment>
@@ -16,7 +16,7 @@ const Welcome = ({fetchUser}) => {
         </div>
         <div className='row'>
         <WelcomeMessage />
-        <LogContainer fetchUser={fetchUser}/>
+        <LogContainer fetchUser={fetchUser} createUser={createUser}/>
         </div>
       </div>
     </Fragment>
