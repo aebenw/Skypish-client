@@ -10,17 +10,19 @@ const WelcomeMessage = () => {
 
         <p>This is a video chat and messaging application.</p>
 
-        <p>*The app needs a little cosmetic work and some polishing. The bulk of it was built in a 3 day code sprint. The video function works first try 90% of the time. If it doesn't work on first try, try clicking the video button from the other user, the user who did not initiate the video chat. It also needs some polishing - user creation/validation, etc*</p>
-
-        <p>Auth was implemented but its commented out in the App.js file. When testing on a single computer, it makes it little cumbersome to log into two profiles.</p>
-
-        <p>To test the app you can login with the two users listed below in two tabs with the two users listed below, or on two separate computers.</p>
+        <p>To test the app you can login with the two users listed below in two tabs or on two separate computers.</p>
 
         <ul>
           <li>eben@eben.com</li>
           <li>juan@juan.com</li>
           <li>pass: test</li>
         </ul>
+
+        <p>*The bulk of the app was built in a 4 day code sprint. The video function works on the first try 90% of the time. If it doesn't work on first try, try clicking the video button from the other user, the user who did not initiate the video chat. It also needs some polishing - user creation/validation, etc, as well as a little cosmetic work*</p>
+
+        <p>Auth was implemented but its commented out in the App.js file. When testing on a single computer, it makes it little cumbersome to log into two profiles.</p>
+
+
 
         <p>Tech Specks</p>
 
