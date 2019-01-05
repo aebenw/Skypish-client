@@ -1,13 +1,15 @@
 import React from 'react'
-import Video from '../components/Video'
 
-export default class VideoContainer extends React.Component {
-  render(){
-    return (
+const VideoContainer = () => {
+  return (
+    <div id="videocontainer">
       <div>
-        <Video handleJoinSession={this.props.handleJoinSession} handleLeaveSession={this.props.handleLeaveSession}/>
+        <video  id="local-video"  autoPlay> </video>
       </div>
-    )
-  }
-
+      <div id="friend-video">
+      </div>
+    </div>
+  )
 }
+
+export default VideoContainer
