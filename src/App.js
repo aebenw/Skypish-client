@@ -56,6 +56,30 @@ class App extends Component {
     .then(res => this.handleLogin(res))
   }
 
+  createUser = (event) => {
+    event.preventDefault()
+    let name = event.target.name.value;
+    let email = event.target.email.value;
+    let password = event.target.password.value;
+    debugger
+    let body = {
+      user : {
+        name,
+        email,
+        password
+      }
+    }
+    fetch(API_ROOT+'/users', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(body)
+    })
+    .then(res => res.json())
+    .then(res => this.handleLogin(res))
+  }
+
   handleLogin = (res) => {
     localStorage.setItem("jwt", res.jwt)
       this.setState({
@@ -65,11 +89,12 @@ class App extends Component {
 
 
   render() {
+
     return (
       <div >
         {this.state.currentUser.name ?
           <ConversationsList user={this.state.currentUser}/>
-          : <Welcome fetchUser={this.fetchUser}/>}
+          : <Welcome fetchUser={this.fetchUser} createUser={this.createUser}/>}
       </div>
     );
   }

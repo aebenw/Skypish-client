@@ -4,8 +4,8 @@ const Login = ({ fetchUser }) => {
 
   return (
 
-        <form onSubmit={(event) => fetchUser(event)} className="ui large form">
-          <div className="ui stacked secondary  segment">
+        <form onSubmit={(event) => fetchUser(event)} className="ui large form" style={{"background":"#212528"}}>
+          <div className="ui stacked secondary  segment" style={{"background":"#FFFFFF"}}>
             <div className="field">
               <div className="ui left icon input">
                 <i className="user icon"></i>
@@ -18,7 +18,7 @@ const Login = ({ fetchUser }) => {
                 <input type="password" name="password" placeholder="Password" />
               </div>
             </div>
-            <input type="submit" className="ui fluid large teal submit button" value="Login" />
+            <input type="submit" className="ui fluid large blue submit button" value="Login" />
           </div>
 
         </form>
