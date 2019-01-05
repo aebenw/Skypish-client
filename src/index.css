@@ -180,3 +180,23 @@ body::-webkit-scrollbar {
 ::-webkit-scrollbar-thumb:window-inactive {
     background: #ddd;
 }
+
+/* .ui.grid {
+    margin-top: 0rem;
+    margin-bottom: 0rem;
+    margin-left: 0rem;
+    margin-right: 0rem;
+} */
+
+#video-box {
+  margin-right: 1%
+}
+
+#friend-video {
+  margin-left: 1%
+}
+
+#videocontainer {
+
+  margin-top: 2%;
+}
