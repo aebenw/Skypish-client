@@ -158,7 +158,6 @@ class ConversationsList extends Component {
 
   pc.oniceconnectionstatechange = event => {
     if (pc.iceConnectionState === "disconnected") {
-      // console.log("Disconnected:", userId);
       this.broadcastData({video:{
         conversation_id: this.state.conversationId,
         user_id: this.state.user_id,
@@ -167,7 +166,6 @@ class ConversationsList extends Component {
       }});
     }
   };
-  // console.log("pc obj outside of function", pc)
   this.setState({
     pcPeers: connectObj
   })
@@ -184,7 +182,6 @@ class ConversationsList extends Component {
   }
 
   if (data.candidate) {
-    // debugger
     let iceCand = new RTCIceCandidate(JSON.parse(data.candidate))
     pc
       .addIceCandidate(iceCand)
@@ -192,7 +189,6 @@ class ConversationsList extends Component {
         return this.setState({pcPeers: { [data.from]: resp} })
       })
   }
-  // debugger
   if (data.sdp) {
     let sdp = JSON.parse(data.sdp);
     pc

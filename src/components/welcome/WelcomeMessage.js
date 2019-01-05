@@ -10,7 +10,7 @@ const WelcomeMessage = () => {
 
         <p>This is a video chat and messaging application.</p>
 
-        <p>To test the app you can login with the two users listed below in two tabs or on two separate computers.</p>
+        <p>To test the app you can login with the two users listed below in two tabs or on two separate computers. You can also make your own account, if you'd like.</p>
 
         <ul>
           <li>eben@eben.com</li>
@@ -18,7 +18,7 @@ const WelcomeMessage = () => {
           <li>pass: test</li>
         </ul>
 
-        <p>*The bulk of the app was built in a 4 day code sprint. The video function works on the first try 90% of the time. If it doesn't work on first try, try clicking the video button from the other user, the user who did not initiate the video chat. It also needs some polishing - user creation/validation, etc, as well as a little cosmetic work*</p>
+        <p>*The bulk of the app was built in a 4 day code sprint. The video function works on the first try 90% of the time. If it doesn't work at first, try  click the video button from the other user, the user who did not initiate the video chat. It also needs a little polishing and cosmetic work*</p>
 
         <p>Auth was implemented but its commented out in the App.js file. When testing on a single computer, it makes it little cumbersome to log into two profiles.</p>
 

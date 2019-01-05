@@ -27,7 +27,6 @@ class LogInSignUp extends Component {
     return (<div className="column">
       <div className="ui middle aligned center aligned grid">
         <div id="login-box" className="column">
-          {/* <div className="row"> */}
             <div className="btn-toolbar mb-2 mb-md-0" style={{"justifyContent":"center"}}>
               <button type="button" onClick={() =>this.changeView(true)} className="btn btn-md btn-outline-secondary" style={{"width":"30%"}}>
                 Log In
@@ -36,7 +35,6 @@ class LogInSignUp extends Component {
                 Sign Up
               </button>
             </div>
-          {/* </div> */}
           { login ?
             <Fragment>
           <h2 className="ui image header">
